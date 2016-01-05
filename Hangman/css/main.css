@@ -1,0 +1,93 @@
+﻿@font-face {
+    font-family: 'Sigmar One', cursive;
+    }
+
+
+@font-face {
+    font-family: 'AlphaWood';
+    src:url('../fonts/AlphaWood.ttf.woff') format('woff'),
+        url('../fonts/AlphaWood.ttf.svg#AlphaWood') format('svg'),
+        url('../fonts/AlphaWood.ttf.eot'),
+        url('../fonts/AlphaWood.ttf.eot?#iefix') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+h1 { 
+   font-family: 'AlphaWood';
+   font-size: 4em;
+}
+
+#letters {
+    font-family: 'Sigmar One';
+    font-size: 3em;
+      -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-decoration: none;
+}
+
+#letters a:hover, a:visited, a:link, a:active {
+
+    text-decoration: none;
+}
+
+
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+#letter-d {
+    color: rgba(128, 128, 128,.3);
+    pointer-events: none;
+    cursor: default;
+  
+    
+}
+
+
+	/* Custom, iPhone Retina */ 
+	@media only screen and (min-width : 320px) {
+
+	}
+
+	/* Extra Small Devices, Phones */ 
+	@media only screen and (min-width : 480px) {
+        h1 { 
+            font-size: 4em;
+        }
+
+	}
+
+	/* Small Devices, Tablets */
+	@media only screen and (min-width : 768px) {
+        h1 { 
+            font-size: 6em;
+	    }
+
+	/* Medium Devices, Desktops */
+	@media only screen and (min-width : 992px) {
+        h1 { 
+           font-size: 8em;
+        }
+	}
+
+	/* Large Devices, Wide Screens */
+	@media only screen and (min-width : 1200px) {
+        h1 { 
+           font-size: 10em;
+        }
+
+	}
