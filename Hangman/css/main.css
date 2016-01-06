@@ -14,9 +14,22 @@
 }
 
 
+/* We dont need the navbar right now */
+.navbar {
+
+    display:none;
+}
+
 h1 { 
    font-family: 'AlphaWood';
    font-size: 4em;
+}
+
+#masked-word, #correct-word {
+    font-family: 'Sigmar One';
+    font-size: 3em;
+    color: blueviolet;
+
 }
 
 #letters {
