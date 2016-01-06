@@ -22,19 +22,24 @@
 
 h1 { 
    font-family: 'AlphaWood';
-   font-size: 4em;
+   font-size: 2.5em;
+}
+
+h2 {
+
+    font-size: 1em;
 }
 
 #masked-word, #correct-word {
     font-family: 'Sigmar One';
-    font-size: 3em;
+    font-size: 2em;
     color: blueviolet;
 
 }
 
 #letters {
     font-family: 'Sigmar One';
-    font-size: 3em;
+    font-size: 1em;
       -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -73,27 +78,60 @@ body {
 
 	/* Custom, iPhone Retina */ 
 	@media only screen and (min-width : 320px) {
-
+         
 	}
 
-	/* Extra Small Devices, Phones */ 
-	@media only screen and (min-width : 480px) {
-        h1 { 
+
+	/* Extra Small Devices, Phones */
+    @media only screen and (min-width : 480px) {
+        h1 {
             font-size: 4em;
         }
 
-	}
+        h2 {
+            font-size: 2em;
+        }
+
+        #masked-word, #correct-word {
+            font-size: 3em;
+        }
+        #letters {
+            font-size: 1.5em;
+        }
+    }
 
 	/* Small Devices, Tablets */
-	@media only screen and (min-width : 768px) {
-        h1 { 
+    @media only screen and (min-width : 768px) {
+        h1 {
             font-size: 6em;
-	    }
+        }
 
+        h2 {
+            font-size: 3em;
+        }
+
+        #masked-word, #correct-word {
+            font-size: 5em;
+        }
+         #letters {
+            font-size: 2em;
+        }
+    }
 	/* Medium Devices, Desktops */
 	@media only screen and (min-width : 992px) {
         h1 { 
            font-size: 8em;
+        }
+
+        h2 {
+            font-size: 4em;
+        }
+
+        #masked-word, #correct-word {
+            font-size: 6em;
+        }
+         #letters {
+            font-size: 3em;
         }
 	}
 
@@ -101,6 +139,16 @@ body {
 	@media only screen and (min-width : 1200px) {
         h1 { 
            font-size: 10em;
+        }
+          h2 {
+            font-size: 5em;
+        }
+
+        #masked-word, #correct-word {
+            font-size: 7em;
+        }
+         #letters {
+            font-size: 4em;
         }
 
 	}
