@@ -79,65 +79,38 @@ function buildMaskedWord() {
     // Lets loop over the playWord and display all correct letters. We will also count for a win.
     var maskedWord = "";
     var numberOfMasks = 0;
+    var playWordAaAeOo = "";
+
+
+    // Ugly fix to handle the ÅÄÖ problem we have atm
+    //Å => +
+    //Ä => !
+    //Ö => >
+
+    for (var i = 0; i < playWord.length; i++) {
+        switch(playWord.charCodeAt(i)) {
+            case 197 : playWordAaAeOo += "+";
+                break;
+            case 196 :  playWordAaAeOo += "!";
+                break;
+            case 214 :  playWordAaAeOo += ">";
+                break;
+            default: playWordAaAeOo += playWord[i];
+        
+        } 
+    }
+
+
     for (var i = 0; i < playWord.length; i++) {
 
         // Check if the player have found the character in playWord at index position [i], if so display character.
         // If not, display "-"
 
-        var currentLetter = playWord.charAt(i);
+        var currentLetter = playWordAaAeOo.charAt(i);
         
-        //Å = 197
-        //Ä = 196
-        //Ö = 214
-        
-
-        //if (playWord.indexOf(String.fromCharCode(197)) > -1) {
-        //    console.log("Ordet innehåller ett Å!");
-        //}
-
-        //if (playWord.indexOf(String.fromCharCode(196)) > -1) {
-        //    console.log("Ordet innehåller ett Ä!");
-        //}
-
-
-        //if (playWord.indexOf(String.fromCharCode(214)) > -1) {
-        //    console.log("Ordet innehåller ett Ö!");
-        //}
-
-        //for (var i = 0; i < playWord.length; i++) {
-        //    console.log("Bokstav[" + i + "] (" + playWord.charAt(i) + " has ascii code " + playWord.charCodeAt(i));
-
-        //}
-
- 
-        //console.log("currentLetter.charCodeAt(0)) = " + currentLetter.charCodeAt(0));
-
-        //switch (currentLetter.charCodeAt[0]) {
-        //    // case 197: currentLetter = "&Aring;".toString;
-
-        //    case 197: currentLetter = escape(String.fromCharCode(197));
-        //        console.log("curentLetter switched to &Aring;");
-        //        break;
-        //        // case 196: currentLetter = "&Auml;".tostring;
-        //    case 196: currentLetter = escape(String.fromCharCode(196));
-        //        console.log("curentLetter switched to &Auml;");
-        //        break;
-        //        // case 214: currentLetter = "&Ouml;".tostring;
-        //    case 214: currentLetter = escape(String.fromCharCode(214));
-        //        console.log("curentLetter switched to &Ouml;");
-        //        break;
-        //    default:
-        //        break;
-
-        //}
-
-        //console.log("Currentletter after switch is " + currentLetter);
-
-        //console.log("GuessedLetters = " + guessedLetters);
-        //console.log("guessedLetters.indexOf(" + currentLetter + " ) = " + guessedLetters.indexOf(currentLetter));
 
         if (guessedLetters.indexOf(currentLetter) > -1) {   // a hit!
-            maskedWord += currentLetter;
+            maskedWord += playWord.charAt(i);
         }
         else {
             maskedWord += "*";
@@ -170,12 +143,24 @@ function letterClicked(letterNumber) {
         return;
     }
     letterClickedIsBusy = true;
-    console.log("Letter number " + letterNumber + " clicked. The letter is " + alphabet.letters()[letterNumber]);
+    // console.log("Letter number " + letterNumber + " clicked. The letter is " + alphabet.letters()[letterNumber]);
 
     $("#letter-" + letterNumber).css('visibility', 'hidden');
 
     // Lets put the letter in an array of clicked letters
     guessedLetters.push(alphabet.letters()[letterNumber]);
+
+    // If ÅÄÖ add special token also
+    switch (alphabet.letters()[letterNumber]) {
+
+        case "&Aring;": guessedLetters.push("+");
+            break;
+        case "&Auml;": guessedLetters.push("!");
+            break;
+        case "&Ouml;": guessedLetters.push(">");
+            break;
+       
+    }
     
     renderMaskedWord(buildMaskedWord());
 
@@ -239,7 +224,6 @@ function AlphabetFactory() {
 
 var Swedish = function () {
     this.lttrs = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "&Aring;", "&Auml;", "&Ouml;", "-"];
-    // this.lttrs = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Å", "Ä", "Ö", "-"];
 };
 
 var English = function () {
@@ -267,11 +251,7 @@ function playWhenWeHaveAWord() {
 
 
 function playHangman() {
-    if ((playWord.indexOf(String.fromCharCode(197)) === -1)  // ÅÄÖ chars are messing with me tonight
-            && (playWord.indexOf(String.fromCharCode(196)) === -1)
-            && (playWord.indexOf(String.fromCharCode(214)) === -1)
-        ) {
-
+   
         var alphabetFactory = new AlphabetFactory();
         alphabet = alphabetFactory.createAlphabet("swedish");
         for (i = 0; i < alphabet.letters().length; i++) {
@@ -283,10 +263,7 @@ function playHangman() {
 
         renderMaskedWord(buildMaskedWord());
         renderAlphabet(alphabet.letters());
-    } else { // This might not be nice to the stack, but it is a temp fix...
-        getWord(20, 10, 'swedish');
-        playWhenWeHaveAWord();
-    }
+   
 }
 
 
