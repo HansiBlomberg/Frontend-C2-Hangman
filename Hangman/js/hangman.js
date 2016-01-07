@@ -14,6 +14,7 @@ var playerHasWon = false;
 var playerTries = 0;
 var maxPlayerTries = 6;
 var alphabet;
+var letterWaitALittle = 0;
 
 
 // Function that gets a word
@@ -59,19 +60,36 @@ function wordServerUrlBuilder(maxLength, minLength, language) {
 function renderAlphabet(letters) {
 
     letterClickedIsBusy = true; // We dont want letters being able to be clicked right now
-
-    var htmlOutput = "";
-    var currentLetter;
-    for (i = 0; i < letters.length; i++) {
-        currentLetter = letters[i];
-        
-        htmlOutput += "<a id='letter-" + i + "' href = '#' onclick = 'letterClicked(" + i + ")'>" + currentLetter + "</a>\r";
-    }
-
-    $("#letters").append(htmlOutput);
-
-    letterClickedIsBusy = false; // OK let the user click all that the user wants
+    showLettersSlowly(letters,0);
+   
 }
+
+
+function showLettersSlowly(letters, letterNumber) {
+    
+       
+    $("#letters").append("<a id='letter-" + letterNumber + "' href = '#' onclick = 'letterClicked(" + letterNumber + ")'>" + letters[letterNumber] + "</a>\r");
+    $("#letter-" + i).hide();
+    $("#letter-" + letterNumber).fadeIn(1000);
+    if(letterNumber < (letters.length - 1) ) {
+        setTimeout(showLettersSlowly, 50, letters, letterNumber + 1);
+    } else {
+        letterClickedIsBusy = false;
+    }
+    
+}
+
+function hideLettersSlowly(letters, letterNumber) {
+    
+    
+    $("#letter-" + letterNumber).fadeOut(1000);
+    if (letterNumber > 0) {
+        setTimeout(hideLettersSlowly, 50, letters, letterNumber - 1);
+    } 
+
+}
+
+
 
 
 function buildMaskedWord() {
@@ -128,9 +146,9 @@ function buildMaskedWord() {
 
 function renderMaskedWord(maskedWord) {
 
-    $("#masked-word").empty();
+    $("#masked-word").empty().hide();
     $("#masked-word").append(maskedWord);
-
+    $("#masked-word").fadeIn(4000);
 }
 
 
@@ -145,7 +163,9 @@ function letterClicked(letterNumber) {
     letterClickedIsBusy = true;
     // console.log("Letter number " + letterNumber + " clicked. The letter is " + alphabet.letters()[letterNumber]);
 
-    $("#letter-" + letterNumber).css('visibility', 'hidden');
+    // $("#letter-" + letterNumber).css('visibility', 'hidden');
+    $("#letter-" + letterNumber).css("pointer-events", "none")
+    $("#letter-" + letterNumber).fadeTo(2000, .3);
 
     // Lets put the letter in an array of clicked letters
     guessedLetters.push(alphabet.letters()[letterNumber]);
@@ -167,37 +187,56 @@ function letterClicked(letterNumber) {
     if (playWord.indexOf(alphabet.letters()[letterNumber]) === -1) {   // bad letter, increase playerTries
         playerTries++;
         if (playerTries >= maxPlayerTries) { // Game over man!
-            $("#main-picture").attr("src", "../images/hangman-" + playerTries + ".png");
+            $("#main-picture").fadeOut();
+            $("#main-picture").attr("src", "images/hangman-" + playerTries + ".png").hide();
+            $("#main-picture").fadeIn();
             console.log("GAME OVER!!!!!!!!!!!");
 
             // Show correct word
-            $("#correct-word-heading").removeClass('hidden');
             $("#correct-word").empty();
+            $("#correct-word-heading").removeClass('hidden');
+            $("#correct-word").hide();
             $("#correct-word").append(playWord);
+            $("#correct-word").fadeIn(10000);
             
             
-            // Show retry button
-            $("#letters").empty();
-            $("#letters").append("<a href = 'javascript:history.go(0)'>Klicka f&ouml;r att spela igen!</a>");
-            
+            // Let player try again
+            showRetry();
+
         } else {  // Change picture, player is closer to being hung
-            $("#main-picture").attr("src", "../images/hangman-" + playerTries + ".png");
+            $("#main-picture").fadeOut();
+            $("#main-picture").attr("src", "images/hangman-" + playerTries + ".png").hide();
+            $("#main-picture").fadeIn();
+
         }
     }
 
     if (playerHasWon === true) { // Do we have a winner?
 
         // Show winner picture
-        $("#main-picture").attr("src", "../images/win.jpg");
+        $("#main-picture").fadeOut();
+        $("#main-picture").attr("src", "images/win.jpg").hide();
+        $("#main-picture").slideDown();
+
 
         // Show retry button
-        $("#letters").empty();
-        $("#letters").append("<a href = 'javascript:history.go(0)'>Klicka f&ouml;r att spela igen!</a>");
+        showRetry();
 
     } else {
 
         letterClickedIsBusy = false;
     }
+}
+
+function showRetry() {
+   // for (var i = letters.length - 1; i <= 0; i--) {
+   //     $("#letter-" + i).fadeOut();
+   // }
+    hideLettersSlowly(letters.length - 1);
+    $("#letters").empty();
+    $("#letters").hide();
+    $("#letters").append("<a href = 'javascript:history.go(0)'>Klicka f&ouml;r att spela igen!</a>");
+    $("#letters").fadeIn(5000);
 }
 
 
@@ -261,15 +300,49 @@ function playHangman() {
 
         var maskedWord = "";
 
+        
         renderMaskedWord(buildMaskedWord());
         renderAlphabet(alphabet.letters());
+        
    
 }
+
+
+// Stolen from stackoverflow
+// It is used to load the images in browser
+// memory and make it more likely for animations
+// to work smoothly
+function preloadImages(arrayOfImages) {
+    $(arrayOfImages).each(function(){
+        $('<img/>')[0].src = this;
+        // Alternatively you could use:
+        // (new Image()).src = this;
+    });
+}
+
+// Preload images
 
 
 // The code starts here
 
 getWord(20, 10, 'swedish');
+
+// Why not preload the images while we are waiting for the word?
+preloadImages([
+
+    "images/hangman-0.png",
+    "images/hangman-1.png",
+    "images/hangman-2.png",
+    "images/hangman-3.png",
+    "images/hangman-4.png",
+    "images/hangman-5.png",
+    "images/hangman-6.png",
+    'images/win.jpg',
+
+]);
+
+
+
 playWhenWeHaveAWord();
     
 
