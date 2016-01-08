@@ -15,6 +15,9 @@ var playerTries = 0;
 var maxPlayerTries = 6;
 var alphabet;
 var letterWaitALittle = 0;
+var gameOverFaded = true;
+var gameOverFunc1;
+var gameOverFunc2;
 
 
 // Function that gets a word
@@ -148,7 +151,7 @@ function renderMaskedWord(maskedWord) {
 
     $("#masked-word").empty().hide();
     $("#masked-word").append(maskedWord);
-    $("#masked-word").fadeIn(4000);
+    $("#masked-word").fadeIn(2000);
 }
 
 
@@ -187,9 +190,9 @@ function letterClicked(letterNumber) {
     if (playWord.indexOf(alphabet.letters()[letterNumber]) === -1) {   // bad letter, increase playerTries
         playerTries++;
         if (playerTries >= maxPlayerTries) { // Game over man!
-            $("#main-picture").fadeOut();
+            $("#main-picture").fadeTo(3000, 0.2);
             $("#main-picture").attr("src", "images/hangman-" + playerTries + ".png").hide();
-            $("#main-picture").fadeIn();
+            $("#main-picture").fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1);
             console.log("GAME OVER!!!!!!!!!!!");
 
             // Show correct word
@@ -204,9 +207,9 @@ function letterClicked(letterNumber) {
             showRetry();
 
         } else {  // Change picture, player is closer to being hung
-            $("#main-picture").fadeOut();
+            $("#main-picture").fadeTo(1000,0.2);
             $("#main-picture").attr("src", "images/hangman-" + playerTries + ".png").hide();
-            $("#main-picture").fadeIn();
+            $("#main-picture").fadeTo(500, 1);
 
         }
     }
@@ -214,9 +217,10 @@ function letterClicked(letterNumber) {
     if (playerHasWon === true) { // Do we have a winner?
 
         // Show winner picture
-        $("#main-picture").fadeOut();
+        $("#main-picture").fadeTo(100,0.01);
         $("#main-picture").attr("src", "images/win.jpg").hide();
         $("#main-picture").slideDown();
+        $("#main-picture").fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1);
 
 
         // Show retry button
@@ -236,8 +240,23 @@ function showRetry() {
     $("#letters").empty();
     $("#letters").hide();
     $("#letters").append("<a href = 'javascript:history.go(0)'>Klicka f&ouml;r att spela igen!</a>");
-    $("#letters").fadeIn(5000);
+    $("#letters").fadeIn(500).fadeTo(500, 1).fadeTo(3000, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1);
 }
+
+
+//function gameOverAnimation(state) {
+//    if ((returnWord !== "---UNDEFINED---")) {
+//        playWord = returnWord.toUpperCase();
+//        console.log("Now we can play with:" + playWord);
+//        playHangman();
+
+//    }
+//    else {
+//        console.log("Waiting for a good word to play with, now it is " + returnWord);
+//        setTimeout(playWhenWeHaveAWord, 250); // check again in after some millisecs
+
+//    }
+//}
 
 
 // Alphabet phactory
