@@ -60,6 +60,11 @@ h2 {
 body {
     padding-top: 70px;
     /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    background-image : url(../images/desert_background2.png);
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
+    
 }
 
 .center-block {

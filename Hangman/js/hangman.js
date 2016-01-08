@@ -207,7 +207,7 @@ function letterClicked(letterNumber) {
             showRetry();
 
         } else {  // Change picture, player is closer to being hung
-            $("#main-picture").fadeTo(1000,0.2);
+            $("#main-picture").fadeTo(100,0.2);
             $("#main-picture").attr("src", "images/hangman-" + playerTries + ".png").hide();
             $("#main-picture").fadeTo(500, 1);
 
