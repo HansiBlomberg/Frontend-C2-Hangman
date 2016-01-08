@@ -239,10 +239,39 @@ function showRetry() {
     hideLettersSlowly(letters.length - 1);
     $("#letters").empty();
     $("#letters").hide();
-    $("#letters").append("<a href = 'javascript:history.go(0)'>Klicka f&ouml;r att spela igen!</a>");
+    $("#letters").append("<a href = '#' onclick='restartHangman()'>Klicka f&ouml;r att spela igen!</a>");
     $("#letters").fadeIn(500).fadeTo(500, 1).fadeTo(3000, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1);
 }
 
+
+function restartHangman() {
+    
+    var returnWord = "---UNDEFINED---";
+    guessedLetters = [];
+    letterClickedIsBusy = false;
+    playerHasWon = false;
+    playerTries = 0;
+
+
+    $("#correct-word").empty();
+    $("#correct-word-heading").addClass('hidden');
+    
+    $("#letters").stop(true, true);
+    $("#letters").fadeTo(200, 0.2);
+    $("#letters").empty()
+    $("#letters").fadeTo(1, 1);
+
+    $("#main-picture").stop(true, true);
+    $("#main-picture").fadeTo(100, 0.2);
+    $("#main-picture").attr("src", "images/hangman-0.png").hide();
+    $("#main-picture").fadeTo(500, 1);
+
+
+    getWord(20, 10, 'swedish');
+    playWhenWeHaveAWord();
+
+
+}
 
 //function gameOverAnimation(state) {
 //    if ((returnWord !== "---UNDEFINED---")) {
