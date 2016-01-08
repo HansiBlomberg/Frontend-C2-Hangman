@@ -218,7 +218,7 @@ function letterClicked(letterNumber) {
 
         // Show winner picture
         $("#main-picture").fadeTo(100,0.01);
-        $("#main-picture").attr("src", "images/win.jpg").hide();
+        $("#main-picture").attr("src", "images/winner.png").hide();
         $("#main-picture").slideDown();
         $("#main-picture").fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1);
 
@@ -356,7 +356,7 @@ preloadImages([
     "images/hangman-4.png",
     "images/hangman-5.png",
     "images/hangman-6.png",
-    'images/win.jpg',
+    'images/winner.png',
 
 ]);
 
