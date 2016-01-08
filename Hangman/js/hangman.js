@@ -18,6 +18,11 @@ var letterWaitALittle = 0;
 var gameOverFaded = true;
 var gameOverFunc1;
 var gameOverFunc2;
+var $letters = $("#letters");
+var $mainPicture = $("#main-picture");
+var $maskedWord = $("#masked-word");
+var $correctWord = $("#correct-word");
+var $correctWordHeading = $("#correct-word-heading");
 
 
 // Function that gets a word
@@ -71,7 +76,7 @@ function renderAlphabet(letters) {
 function showLettersSlowly(letters, letterNumber) {
     
        
-    $("#letters").append("<a id='letter-" + letterNumber + "' href = '#' onclick = 'letterClicked(" + letterNumber + ")'>" + letters[letterNumber] + "</a>\r");
+    $letters.append("<a id='letter-" + letterNumber + "' href = '#' onclick = 'letterClicked(" + letterNumber + ")'>" + letters[letterNumber] + "</a>\r");
     $("#letter-" + i).hide();
     $("#letter-" + letterNumber).fadeIn(1000);
     if(letterNumber < (letters.length - 1) ) {
@@ -148,10 +153,10 @@ function buildMaskedWord() {
 
 
 function renderMaskedWord(maskedWord) {
-
-    $("#masked-word").empty().hide();
-    $("#masked-word").append(maskedWord);
-    $("#masked-word").fadeIn(2000);
+    
+    $maskedWord.empty().hide();
+    $maskedWord.append(maskedWord);
+    $maskedWord.fadeIn(2000);
 }
 
 
@@ -190,26 +195,26 @@ function letterClicked(letterNumber) {
     if (playWord.indexOf(alphabet.letters()[letterNumber]) === -1) {   // bad letter, increase playerTries
         playerTries++;
         if (playerTries >= maxPlayerTries) { // Game over man!
-            $("#main-picture").fadeTo(3000, 0.2);
-            $("#main-picture").attr("src", "images/hangman-" + playerTries + ".png").hide();
-            $("#main-picture").fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1);
-            console.log("GAME OVER!!!!!!!!!!!");
+           $mainPicture.fadeTo(3000, 0.2);
+           $mainPicture.attr("src", "images/hangman-" + playerTries + ".png").hide();
+           blinkOn($mainPicture, 3000);
+           console.log("GAME OVER!!!!!!!!!!!");
 
             // Show correct word
-            $("#correct-word").empty();
-            $("#correct-word-heading").removeClass('hidden');
-            $("#correct-word").hide();
-            $("#correct-word").append(playWord);
-            $("#correct-word").fadeIn(10000);
+            $correctWord.empty();
+            $correctWordHeading.removeClass('hidden');
+            $correctWord.hide();
+            $correctWord.append(playWord);
+            $correctWord.fadeIn(10000);
             
             
             // Let player try again
             showRetry();
 
         } else {  // Change picture, player is closer to being hung
-            $("#main-picture").fadeTo(100,0.2);
-            $("#main-picture").attr("src", "images/hangman-" + playerTries + ".png").hide();
-            $("#main-picture").fadeTo(500, 1);
+           $mainPicture.fadeTo(100,0.2);
+           $mainPicture.attr("src", "images/hangman-" + playerTries + ".png").hide();
+           $mainPicture.fadeTo(500, 1);
 
         }
     }
@@ -217,11 +222,10 @@ function letterClicked(letterNumber) {
     if (playerHasWon === true) { // Do we have a winner?
 
         // Show winner picture
-        $("#main-picture").fadeTo(100,0.01);
-        $("#main-picture").attr("src", "images/winner.png").hide();
-        $("#main-picture").slideDown();
-        $("#main-picture").fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1).fadeTo(3000, 0.2).fadeTo(3000, 1);
-
+       $mainPicture.fadeTo(100,0.01);
+       $mainPicture.attr("src", "images/winner.png").hide();
+       $mainPicture.slideDown();
+       blinkOn($mainPicture, 3000);
 
         // Show retry button
         showRetry();
@@ -233,14 +237,41 @@ function letterClicked(letterNumber) {
 }
 
 function showRetry() {
-   // for (var i = letters.length - 1; i <= 0; i--) {
-   //     $("#letter-" + i).fadeOut();
-   // }
+    // for (var i = letters.length - 1; i <= 0; i--) {
+    //     $("#letter-" + i).fadeOut();
+    // }
     hideLettersSlowly(letters.length - 1);
-    $("#letters").empty();
-    $("#letters").hide();
-    $("#letters").append("<a href = '#' onclick='restartHangman()'>Klicka f&ouml;r att spela igen!</a>");
-    $("#letters").fadeIn(500).fadeTo(500, 1).fadeTo(3000, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1).fadeTo(500, 0.2).fadeTo(500, 1);
+    $letters.empty();
+    $letters.hide();
+    $letters.append("<a href = '#' onclick='restartHangman()'>Klicka f&ouml;r att spela igen!</a>");
+    $letters.fadeIn(500);
+    blinkOn($letters,500);
+}
+
+
+
+
+
+function blinkOn($element, millis) {
+    $element.bind('fadeOut', function () {
+        $(this).fadeTo(millis, 0.2, function () {
+            $(this).trigger('fadeIn');
+            });
+    });
+
+    $element.bind('fadeIn', function () {
+        $(this).fadeTo(millis, 1, function () {
+            $(this).trigger('fadeOut');
+        });
+    });
+
+    $element.trigger('fadeOut');
+
+}
+
+function blinkOff($element) {
+    $element.unbind('fadeOut');
+    $element.unbind('fadeIn');
 }
 
 
@@ -253,18 +284,20 @@ function restartHangman() {
     playerTries = 0;
 
 
-    $("#correct-word").empty();
-    $("#correct-word-heading").addClass('hidden');
+    $correctWord.empty();
+    $correctWordHeading.addClass('hidden');
     
-    $("#letters").stop(true, true);
-    $("#letters").fadeTo(200, 0.2);
-    $("#letters").empty()
-    $("#letters").fadeTo(1, 1);
+    blinkOff($letters);
+    $letters.stop(true, true);
+    $letters.fadeTo(200, 0.2);
+    $letters.empty()
+    $letters.fadeTo(1, 1);
 
-    $("#main-picture").stop(true, true);
-    $("#main-picture").fadeTo(100, 0.2);
-    $("#main-picture").attr("src", "images/hangman-0.png").hide();
-    $("#main-picture").fadeTo(500, 1);
+   blinkOff($mainPicture);
+   $mainPicture.stop(true, true);
+   $mainPicture.fadeTo(100, 0.2);
+   $mainPicture.attr("src", "images/hangman-0.png").hide();
+   $mainPicture.fadeTo(500, 1);
 
 
     getWord(20, 10, 'swedish');
